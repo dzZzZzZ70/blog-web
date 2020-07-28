@@ -55,6 +55,15 @@ export default {
     },
 
     methods: {
+        async rowClick(item) {
+            this.$router.push({
+                name: 'home',
+                params: {
+                    id: item.id
+                }
+            })
+        },
+
         async findBlog() {
             const sendData = {
                 id: this.$route.params.id

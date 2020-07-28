@@ -15,7 +15,22 @@
                     <v-avatar>
                         <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
                     </v-avatar>
-                    <div>❤dz❤</div>
+                    <div>
+                        ❤dz❤
+                        <!-- <v-icon @click="clickMenu" :class="{'menuHidden' : clicked}">mdi-menu-down</v-icon> -->
+                        <v-menu offset-y v-model="clicked">
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn color="primary" dark v-bind="attrs" icon v-on="on">
+                                    <v-icon :class="{'menuHidden' : !clicked}">mdi-menu-down</v-icon>
+                                </v-btn>
+                            </template>
+                            <v-list>
+                                <v-list-item v-for="(item, index) in menuItems" :key="index">
+                                    <v-list-item-title class="menu-item" @click="logout">{{ item.title }}</v-list-item-title>
+                                </v-list-item>
+                            </v-list>
+                        </v-menu>
+                    </div>
                 </div>
             </div>
             <div class="router-div">
@@ -28,7 +43,14 @@
 <script>
 export default {
     data() {
-        return {};
+        return {
+            clicked: false,
+            menuItems: [
+                {
+                    title: '退出登录'
+                }
+            ]
+        };
     },
 
     methods: {
@@ -38,8 +60,19 @@ export default {
 
         toEdit() {
             this.$router.push("edit");
+        },
+
+        clickMenu() {
+            this.clicked = !this.clicked;
+        },
+
+        logout() {
+            this.$store.commit('login', )
+            this.$router.push({
+                name: 'login'
+            })
         }
-    }
+    },
 };
 </script>
 
@@ -91,11 +124,19 @@ body {
 } */
 
 .user {
-    display:flex;
-    align-items: center
+    display: flex;
+    align-items: center;
 }
 
 .user div {
     margin-left: 8px;
+}
+
+.menuHidden {
+    transform: rotate(90deg);
+}
+
+.menu-item {
+    cursor: pointer;
 }
 </style>

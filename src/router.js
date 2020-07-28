@@ -23,7 +23,7 @@ const router = new Router({
         },
         {
             path: '/index',
-            // name: 'index',
+            name: 'index',
             component: BlogLayout,
             children: [
                 {
@@ -48,9 +48,7 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-    console.log('data', to, from,store.state.userInfo.userAccount)
-    if (to.name !== 'login' && to.name === 'edit' &&  store.state.userInfo.userAccount === '') {
-        console.log('asdfads')
+    if (to.name !== 'login' && to.name === 'edit' &&  (!store.state.userInfo || !store.state.userInfo.userAccount || store.state.userInfo.userAccount === '')) {
         next({ name: 'login' })
     } 
     else {

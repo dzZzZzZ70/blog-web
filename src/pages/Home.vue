@@ -23,7 +23,7 @@
                             style="width: 90%;display:flex;margin: 0 auto"
                         >
                             <div class="left-card-type">{{ item.type }}</div>
-                            <div class="tag">{{ index }}</div>
+                            <div class="tag">{{ item.qty }}</div>
                         </div>
                     </div>
                 </template>
@@ -56,6 +56,7 @@
             >
                 <div class="blog-title">
                     <h2
+                        @click="vistiBlog(item.id)"
                         @mouseleave="titleHoverRow = -1"
                         @mouseenter="titleHoverRow = index"
                         :class="{ 'blog-select-title': index == titleHoverRow }"
@@ -87,7 +88,25 @@ export default {
     },
 
     created() {
-        this.findSettingBlogType();
+        this.findSettingBlogType().then((res) => {
+            if (this.$route.params && this.$route.params.id) {
+                const send = {
+                    blogTypeId: this.$route.params.id,
+                    size: 15,
+                    current: 0,
+                };
+                this.findBlogByType(send);
+            } else {
+                if (this.blogTypeArray.length > 0) {
+                    const send = {
+                        blogTypeId: this.blogTypeArray[0].id,
+                        size: 15,
+                        current: 0,
+                    };
+                    this.findBlogByType(send);
+                }
+            }
+        });
     },
 
     methods: {
@@ -97,24 +116,31 @@ export default {
                 size: 15,
                 current: 0,
             };
-            await this.findBlogByType(sendData);
+            this.findBlogByType(sendData);
         },
 
-        async findBlogByType(data) {
-            this.blogArray = [];
-            findBlogByBlogType(data).then((res) => {
-                this.blogArray = res.pageEntity.records;
+        findBlogByType(data) {
+            return new Promise((resolve, reject) => {
+                this.blogArray = [];
+                findBlogByBlogType(data).then((res) => {
+                    this.blogArray = res.pageEntity.records;
+                    return resolve();
+                });
             });
         },
-        async findSettingBlogType() {
-            this.blogTypeArray = [];
-            const sendData = {
-                userAccount: this.$store.state.userInfo.userAccount || 'admin',
-            };
-            findSettingBlogType(sendData).then((res) => {
-                if (res.flag === "0") {
-                    this.blogTypeArray = res.result;
-                }
+        findSettingBlogType() {
+            return new Promise((resolve, reject) => {
+                this.blogTypeArray = [];
+                const sendData = {
+                    userAccount:
+                        this.$store.state.userInfo.userAccount || "admin",
+                };
+                findSettingBlogType(sendData).then((res) => {
+                    if (res.flag === "0") {
+                        this.blogTypeArray = res.result;
+                        return resolve();
+                    }
+                });
             });
         },
 
@@ -123,9 +149,9 @@ export default {
          */
         vistiBlog(id) {
             this.$router.push({
-                name: 'visti',
+                name: "visti",
                 // path: `/visti`,
-                params: {id: id}
+                params: { id: id },
             });
         },
     },

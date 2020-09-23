@@ -1,6 +1,9 @@
+<!-- 分类查看页面 -->
 <template>
     <div>
         <v-container grid-list-xs>
+            <div class="content font-20 title">分类</div>
+            <div class="title-div"></div>
             <div class="content">
                 <div v-for="(item,index) in items" :key="item.id">
                     <div class="card">
@@ -17,7 +20,7 @@
                                 </v-row>
                                 <v-row no-gutters>
                                     <div
-                                        style="margin-top:15px normal-text"
+                                        style="margin-top:15px"
                                         class="font-14"
                                     >{{ item.shortContent }}</div>
                                 </v-row>
@@ -44,12 +47,12 @@
                             <v-col
                                 cols="1"
                                 style="line-height: 40px;"
-                                class="font-12 normal-text"
+                                class="font-12"
                             >{{ item.author }}</v-col>
                             <v-col
                                 cols="1"
                                 style="line-height: 40px;"
-                                class="font-12 normal-text"
+                                class="font-12"
                             >{{ item.updateDate }}</v-col>
                         </v-row>
                     </div>
@@ -190,12 +193,29 @@ export default {
     font-size: 18px;
 }
 
+.font-20 {
+    font-size: 20px;
+}
+
 .cursor-pointer {
     cursor: pointer;
     text-decoration: underline;
 }
 
+.title {
+    color: #00897B;
+    padding: 10px 30px;
+}
+
+.title-div {
+    border: solid 1px #dddddd;
+}
+
 .normal-text {
     color: #333333;
+}
+
+.tag-text {
+    color: #999999;
 }
 </style>

@@ -134,10 +134,18 @@ export function patch(url,data = {}){
   return new Promise((resolve,reject) => {
     axios.patch(url,data)
       .then(response => {
-        if(response.data.code === 200){
-          resolve(response.data.data);
+        if(response.status === 200){
+          resolve(response.data);
+          if (response.data.flag !== '0') {
+            if (response.data.flag === '1' && response.data.message === 'outOfDate') {
+              router.push('/login')
+              Message.warning("登录过期，请重新登录")
+              return
+            }
+            Message.warning(response.data.message)
+          }
         }else{
-          Message.error(response.data.msg)
+          Message.error("请求失败")
         }
       },err => {
         reject(err);

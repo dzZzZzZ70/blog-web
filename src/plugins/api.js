@@ -27,7 +27,13 @@ export const findSettingBlogType = function (data) {
 // 保存博客内容
 const saveBusinessBlogURL = '/controller/blog/saveBusinessBlog'
 export const saveBusinessBlog = function (data) {
-    return Vue.prototype.$post(saveBusinessBlogURL, data)
+    return Vue.prototype.$put(saveBusinessBlogURL, data)
+}
+
+// 修改博客
+const editBusinessBlogRUL = '/controller/blog/editBusinessBlog'
+export const editBusinessBlog = function (data) {
+    return Vue.prototype.$patch(editBusinessBlogRUL, data)
 }
 
 // 查询分类下的博客 分页
@@ -36,12 +42,23 @@ export const findBlogByBlogType = function (data) {
     return Vue.prototype.$post(findBlogByBlogTypeURL, data)
 }
 
+// 分页查询博客
+const findBlogPageURL = '/controller/blog/findBlogPage'
+export const findBlogPage = function (data) {
+    return Vue.prototype.$post(findBlogPageURL, data)
+}
+
 /**
  * 根据ID查询博客
  */
 const findBlogURL = '/controller/blog/findBlog'
 export const findBlog = function (data) {
     return Vue.prototype.$post(findBlogURL, data)
+}
+
+const findBlogByUserURL = '/controller/blog/findBlogByUser'
+export const findBlogByUser = function(data) {
+    return Vue.prototype.$post(findBlogByUserURL, data)
 }
 
 /**

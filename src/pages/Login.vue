@@ -60,7 +60,7 @@ export default {
                 // 处理登录成功
                 if (res.flag === '0') {
                     this.$store.commit('login', this.form)
-                    this.$router.push('/index/home')
+                    this.$router.push('/home')
                 }
             })
             // if (response) {
